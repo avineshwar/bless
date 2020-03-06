@@ -571,7 +571,7 @@ def test_invalid_request_with_multiple_principals():
 def test_invalid_request_with_mismatched_bastion_and_remote():
     """
     Test default kmsauth behavior, that a bastion_user and remote_usernames must match
-    :return: 
+    :return:
     """
     output = lambda_handler_user(
         INVALID_TEST_KMSAUTH_REQUEST_USERNAME_DOESNT_MATCH_REMOTE,
