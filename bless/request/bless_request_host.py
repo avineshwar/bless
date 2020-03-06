@@ -5,23 +5,34 @@
 """
 from enum import Enum
 
-from bless.config.bless_config import HOSTNAME_VALIDATION_OPTION, HOSTNAME_VALIDATION_DEFAULT
+from bless.config.bless_config import (
+    HOSTNAME_VALIDATION_OPTION,
+    HOSTNAME_VALIDATION_DEFAULT,
+)
 from bless.request.bless_request_common import validate_ssh_public_key
-from marshmallow import Schema, fields, validates_schema, ValidationError, post_load, validates
+from marshmallow import (
+    Schema,
+    fields,
+    validates_schema,
+    ValidationError,
+    post_load,
+    validates,
+)
 from marshmallow.validate import URL
 
-HOSTNAME_VALIDATION_OPTIONS = Enum('HostNameValidationOptions',
-                                   'url '  # Valid url format
-                                   'disabled'  # no validation
-                                   )
+HOSTNAME_VALIDATION_OPTIONS = Enum(
+    "HostNameValidationOptions", "url " "disabled"  # Valid url format  # no validation
+)
 
 
 def validate_hostname(hostname, hostname_validation):
     if hostname_validation == HOSTNAME_VALIDATION_OPTIONS.disabled:
         return
     else:
-        validator = URL(require_tld=False, schemes='ssh', error='Invalid hostname "{input}".')
-        validator('ssh://{}'.format(hostname))
+        validator = URL(
+            require_tld=False, schemes="ssh", error='Invalid hostname "{input}".'
+        )
+        validator("ssh://{}".format(hostname))
 
 
 class BlessHostSchema(Schema):
@@ -32,19 +43,23 @@ class BlessHostSchema(Schema):
     def check_unknown_fields(self, data, original_data):
         unknown = set(original_data) - set(self.fields)
         if unknown:
-            raise ValidationError('Unknown field', unknown)
+            raise ValidationError("Unknown field", unknown)
 
     @post_load
     def make_bless_request(self, data):
         return BlessHostRequest(**data)
 
-    @validates('hostnames')
+    @validates("hostnames")
     def validate_hostnames(self, hostnames):
         if HOSTNAME_VALIDATION_OPTION in self.context:
-            hostname_validation = HOSTNAME_VALIDATION_OPTIONS[self.context[HOSTNAME_VALIDATION_OPTION]]
+            hostname_validation = HOSTNAME_VALIDATION_OPTIONS[
+                self.context[HOSTNAME_VALIDATION_OPTION]
+            ]
         else:
-            hostname_validation = HOSTNAME_VALIDATION_OPTIONS[HOSTNAME_VALIDATION_DEFAULT]
-        for hostname in hostnames.split(','):
+            hostname_validation = HOSTNAME_VALIDATION_OPTIONS[
+                HOSTNAME_VALIDATION_DEFAULT
+            ]
+        for hostname in hostnames.split(","):
             validate_hostname(hostname, hostname_validation)
 
 

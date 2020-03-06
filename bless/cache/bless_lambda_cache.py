@@ -17,8 +17,7 @@ class BlessLambdaCache:
     ca_private_key_password = None
     ca_private_key_password_error = None
 
-    def __init__(self, ca_private_key_password=None,
-                 config_file=None):
+    def __init__(self, ca_private_key_password=None, config_file=None):
         """
 
         :param ca_private_key_password: For local testing, if the password is provided, skip the KMS
@@ -26,10 +25,10 @@ class BlessLambdaCache:
         :param config_file: The config file to load the SSH CA private key from, and additional settings.
         """
         # AWS Region determines configs related to KMS
-        if 'AWS_REGION' in os.environ:
-            self.region = os.environ['AWS_REGION']
+        if "AWS_REGION" in os.environ:
+            self.region = os.environ["AWS_REGION"]
         else:
-            self.region = 'us-west-2'
+            self.region = "us-west-2"
 
             # Load the deployment config values
         self.config = BlessConfig(self.region, config_file=config_file)
@@ -38,11 +37,12 @@ class BlessLambdaCache:
 
         # decrypt ca private key password
         if ca_private_key_password is None:
-            kms_client = boto3.client('kms', region_name=self.region)
+            kms_client = boto3.client("kms", region_name=self.region)
             try:
                 ca_password = kms_client.decrypt(
-                    CiphertextBlob=base64.b64decode(password_ciphertext_b64))
-                self.ca_private_key_password = ca_password['Plaintext']
+                    CiphertextBlob=base64.b64decode(password_ciphertext_b64)
+                )
+                self.ca_private_key_password = ca_password["Plaintext"]
             except ClientError as e:
                 self.ca_private_key_password_error = str(e)
         else:
