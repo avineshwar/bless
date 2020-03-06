@@ -5,19 +5,17 @@
 """
 import time
 
-from bless.aws_lambda.bless_lambda_common import (
-    success_response,
-    error_response,
-    set_logger,
-    check_entropy,
-    setup_lambda_cache,
-)
-from bless.config.bless_config import (
-    BLESS_OPTIONS_SECTION,
-    SERVER_CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION,
-    SERVER_CERTIFICATE_VALIDITY_AFTER_SEC_OPTION,
-    HOSTNAME_VALIDATION_OPTION,
-)
+from marshmallow import ValidationError
+
+from bless.aws_lambda.bless_lambda_common import check_entropy
+from bless.aws_lambda.bless_lambda_common import error_response
+from bless.aws_lambda.bless_lambda_common import set_logger
+from bless.aws_lambda.bless_lambda_common import setup_lambda_cache
+from bless.aws_lambda.bless_lambda_common import success_response
+from bless.config.bless_config import BLESS_OPTIONS_SECTION
+from bless.config.bless_config import HOSTNAME_VALIDATION_OPTION
+from bless.config.bless_config import SERVER_CERTIFICATE_VALIDITY_AFTER_SEC_OPTION
+from bless.config.bless_config import SERVER_CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION
 from bless.request.bless_request_host import BlessHostSchema
 from bless.ssh.certificate_authorities.ssh_certificate_authority_factory import (
     get_ssh_certificate_authority,
@@ -26,7 +24,6 @@ from bless.ssh.certificates.ssh_certificate_builder import SSHCertificateType
 from bless.ssh.certificates.ssh_certificate_builder_factory import (
     get_ssh_certificate_builder,
 )
-from marshmallow import ValidationError
 
 
 def lambda_handler_host(

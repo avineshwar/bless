@@ -6,8 +6,10 @@
 import base64
 import hashlib
 
-from bless.ssh.public_keys.ssh_public_key import SSHPublicKey, SSHPublicKeyType
 from cryptography.hazmat.primitives.serialization import ssh
+
+from bless.ssh.public_keys.ssh_public_key import SSHPublicKey
+from bless.ssh.public_keys.ssh_public_key import SSHPublicKeyType
 
 
 class ED25519PublicKey(SSHPublicKey):

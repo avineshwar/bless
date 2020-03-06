@@ -3,12 +3,12 @@
     :copyright: (c) 2016 by Netflix Inc., see AUTHORS for more
     :license: Apache, see LICENSE for more details.
 """
-import configparser
 import base64
+import bz2
+import configparser
 import os
 import re
 import zlib
-import bz2
 
 BLESS_OPTIONS_SECTION = "Bless Options"
 CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION = "certificate_validity_before_seconds"

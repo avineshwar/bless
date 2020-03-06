@@ -6,33 +6,31 @@ from cryptography.hazmat.primitives.serialization.ssh import _ssh_read_next_stri
 from bless.ssh.certificate_authorities.rsa_certificate_authority import (
     RSACertificateAuthority,
 )
-from bless.ssh.certificates.rsa_certificate_builder import RSACertificateBuilder
 from bless.ssh.certificates.ed25519_certificate_builder import ED25519CertificateBuilder
+from bless.ssh.certificates.rsa_certificate_builder import RSACertificateBuilder
 from bless.ssh.certificates.ssh_certificate_builder import SSHCertificateType
-from bless.ssh.public_keys.rsa_public_key import RSAPublicKey
 from bless.ssh.public_keys.ed25519_public_key import ED25519PublicKey
-from tests.ssh.vectors import (
-    RSA_CA_PRIVATE_KEY,
-    RSA_CA_PRIVATE_KEY_PASSWORD,
-    EXAMPLE_RSA_PUBLIC_KEY,
-    EXAMPLE_RSA_PUBLIC_KEY_NO_DESCRIPTION,
-    RSA_USER_CERT_MINIMAL,
-    RSA_USER_CERT_DEFAULTS,
-    RSA_USER_CERT_DEFAULTS_NO_PUBLIC_KEY_COMMENT,
-    RSA_USER_CERT_MANY_PRINCIPALS,
-    RSA_HOST_CERT_MANY_PRINCIPALS,
-    RSA_USER_CERT_FORCE_COMMAND_AND_SOURCE_ADDRESS,
-    RSA_USER_CERT_FORCE_COMMAND_AND_SOURCE_ADDRESS_KEY_ID,
-    RSA_HOST_CERT_MANY_PRINCIPALS_KEY_ID,
-    RSA_USER_CERT_MANY_PRINCIPALS_KEY_ID,
-    RSA_USER_CERT_DEFAULTS_NO_PUBLIC_KEY_COMMENT_KEY_ID,
-    RSA_USER_CERT_DEFAULTS_KEY_ID,
-    SSH_CERT_DEFAULT_EXTENSIONS,
-    SSH_CERT_CUSTOM_EXTENSIONS,
-    EXAMPLE_ED25519_PUBLIC_KEY,
-    ED25519_USER_CERT_DEFAULTS,
-    ED25519_USER_CERT_DEFAULTS_KEY_ID,
-)
+from bless.ssh.public_keys.rsa_public_key import RSAPublicKey
+from tests.ssh.vectors import ED25519_USER_CERT_DEFAULTS
+from tests.ssh.vectors import ED25519_USER_CERT_DEFAULTS_KEY_ID
+from tests.ssh.vectors import EXAMPLE_ED25519_PUBLIC_KEY
+from tests.ssh.vectors import EXAMPLE_RSA_PUBLIC_KEY
+from tests.ssh.vectors import EXAMPLE_RSA_PUBLIC_KEY_NO_DESCRIPTION
+from tests.ssh.vectors import RSA_CA_PRIVATE_KEY
+from tests.ssh.vectors import RSA_CA_PRIVATE_KEY_PASSWORD
+from tests.ssh.vectors import RSA_HOST_CERT_MANY_PRINCIPALS
+from tests.ssh.vectors import RSA_HOST_CERT_MANY_PRINCIPALS_KEY_ID
+from tests.ssh.vectors import RSA_USER_CERT_DEFAULTS
+from tests.ssh.vectors import RSA_USER_CERT_DEFAULTS_KEY_ID
+from tests.ssh.vectors import RSA_USER_CERT_DEFAULTS_NO_PUBLIC_KEY_COMMENT
+from tests.ssh.vectors import RSA_USER_CERT_DEFAULTS_NO_PUBLIC_KEY_COMMENT_KEY_ID
+from tests.ssh.vectors import RSA_USER_CERT_FORCE_COMMAND_AND_SOURCE_ADDRESS
+from tests.ssh.vectors import RSA_USER_CERT_FORCE_COMMAND_AND_SOURCE_ADDRESS_KEY_ID
+from tests.ssh.vectors import RSA_USER_CERT_MANY_PRINCIPALS
+from tests.ssh.vectors import RSA_USER_CERT_MANY_PRINCIPALS_KEY_ID
+from tests.ssh.vectors import RSA_USER_CERT_MINIMAL
+from tests.ssh.vectors import SSH_CERT_CUSTOM_EXTENSIONS
+from tests.ssh.vectors import SSH_CERT_DEFAULT_EXTENSIONS
 
 USER1 = "user1"
 

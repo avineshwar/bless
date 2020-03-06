@@ -1,16 +1,13 @@
 import pytest
-from bless.config.bless_config import (
-    USERNAME_VALIDATION_OPTION,
-    REMOTE_USERNAMES_VALIDATION_OPTION,
-    REMOTE_USERNAMES_BLACKLIST_OPTION,
-)
-from bless.request.bless_request_user import (
-    validate_ips,
-    validate_user,
-    USERNAME_VALIDATION_OPTIONS,
-    BlessUserSchema,
-)
 from marshmallow import ValidationError
+
+from bless.config.bless_config import REMOTE_USERNAMES_BLACKLIST_OPTION
+from bless.config.bless_config import REMOTE_USERNAMES_VALIDATION_OPTION
+from bless.config.bless_config import USERNAME_VALIDATION_OPTION
+from bless.request.bless_request_user import BlessUserSchema
+from bless.request.bless_request_user import USERNAME_VALIDATION_OPTIONS
+from bless.request.bless_request_user import validate_ips
+from bless.request.bless_request_user import validate_user
 
 
 def test_validate_ips():

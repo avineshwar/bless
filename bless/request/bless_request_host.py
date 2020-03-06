@@ -5,20 +5,17 @@
 """
 from enum import Enum
 
-from bless.config.bless_config import (
-    HOSTNAME_VALIDATION_OPTION,
-    HOSTNAME_VALIDATION_DEFAULT,
-)
-from bless.request.bless_request_common import validate_ssh_public_key
-from marshmallow import (
-    Schema,
-    fields,
-    validates_schema,
-    ValidationError,
-    post_load,
-    validates,
-)
+from marshmallow import fields
+from marshmallow import post_load
+from marshmallow import Schema
+from marshmallow import validates
+from marshmallow import validates_schema
+from marshmallow import ValidationError
 from marshmallow.validate import URL
+
+from bless.config.bless_config import HOSTNAME_VALIDATION_DEFAULT
+from bless.config.bless_config import HOSTNAME_VALIDATION_OPTION
+from bless.request.bless_request_common import validate_ssh_public_key
 
 HOSTNAME_VALIDATION_OPTIONS = Enum(
     "HostNameValidationOptions", "url " "disabled"  # Valid url format  # no validation

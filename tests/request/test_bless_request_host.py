@@ -1,10 +1,9 @@
 import pytest
-from bless.request.bless_request_host import (
-    HOSTNAME_VALIDATION_OPTIONS,
-    BlessHostSchema,
-    validate_hostname,
-)
 from marshmallow import ValidationError
+
+from bless.request.bless_request_host import BlessHostSchema
+from bless.request.bless_request_host import HOSTNAME_VALIDATION_OPTIONS
+from bless.request.bless_request_host import validate_hostname
 
 
 @pytest.mark.parametrize("test_input", ["thisthat", "this.that", "10.1.1.1"])

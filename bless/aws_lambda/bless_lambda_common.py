@@ -7,13 +7,12 @@ import logging
 import os
 
 import boto3
+
 from bless.cache.bless_lambda_cache import BlessLambdaCache
-from bless.config.bless_config import (
-    BLESS_OPTIONS_SECTION,
-    LOGGING_LEVEL_OPTION,
-    ENTROPY_MINIMUM_BITS_OPTION,
-    RANDOM_SEED_BYTES_OPTION,
-)
+from bless.config.bless_config import BLESS_OPTIONS_SECTION
+from bless.config.bless_config import ENTROPY_MINIMUM_BITS_OPTION
+from bless.config.bless_config import LOGGING_LEVEL_OPTION
+from bless.config.bless_config import RANDOM_SEED_BYTES_OPTION
 
 global_bless_cache = None
 

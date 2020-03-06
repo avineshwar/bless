@@ -7,8 +7,9 @@ import base64
 import os
 
 import boto3
-from bless.config.bless_config import BlessConfig
 from botocore.exceptions import ClientError
+
+from bless.config.bless_config import BlessConfig
 
 
 class BlessLambdaCache:

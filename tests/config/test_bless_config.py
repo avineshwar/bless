@@ -3,38 +3,37 @@ import os
 import zlib
 
 import pytest
-from bless.config.bless_config import (
-    BlessConfig,
-    BLESS_OPTIONS_SECTION,
-    CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION,
-    CERTIFICATE_VALIDITY_AFTER_SEC_OPTION,
-    ENTROPY_MINIMUM_BITS_OPTION,
-    RANDOM_SEED_BYTES_OPTION,
-    CERTIFICATE_VALIDITY_SEC_DEFAULT,
-    ENTROPY_MINIMUM_BITS_DEFAULT,
-    RANDOM_SEED_BYTES_DEFAULT,
-    LOGGING_LEVEL_DEFAULT,
-    LOGGING_LEVEL_OPTION,
-    BLESS_CA_SECTION,
-    CA_PRIVATE_KEY_FILE_OPTION,
-    KMSAUTH_SECTION,
-    KMSAUTH_USEKMSAUTH_OPTION,
-    KMSAUTH_KEY_ID_OPTION,
-    KMSAUTH_SERVICE_ID_OPTION,
-    CERTIFICATE_EXTENSIONS_OPTION,
-    USERNAME_VALIDATION_OPTION,
-    USERNAME_VALIDATION_DEFAULT,
-    REMOTE_USERNAMES_VALIDATION_OPTION,
-    CA_PRIVATE_KEY_COMPRESSION_OPTION,
-    CA_PRIVATE_KEY_COMPRESSION_OPTION_DEFAULT,
-    SERVER_CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION,
-    SERVER_CERTIFICATE_VALIDITY_BEFORE_SEC_DEFAULT,
-    SERVER_CERTIFICATE_VALIDITY_AFTER_SEC_OPTION,
-    SERVER_CERTIFICATE_VALIDITY_AFTER_SEC_DEFAULT,
-    HOSTNAME_VALIDATION_OPTION,
-    HOSTNAME_VALIDATION_DEFAULT,
-    VALIDATE_REMOTE_USERNAMES_AGAINST_IAM_GROUPS_OPTION,
-)
+
+from bless.config.bless_config import BLESS_CA_SECTION
+from bless.config.bless_config import BLESS_OPTIONS_SECTION
+from bless.config.bless_config import BlessConfig
+from bless.config.bless_config import CA_PRIVATE_KEY_COMPRESSION_OPTION
+from bless.config.bless_config import CA_PRIVATE_KEY_COMPRESSION_OPTION_DEFAULT
+from bless.config.bless_config import CA_PRIVATE_KEY_FILE_OPTION
+from bless.config.bless_config import CERTIFICATE_EXTENSIONS_OPTION
+from bless.config.bless_config import CERTIFICATE_VALIDITY_AFTER_SEC_OPTION
+from bless.config.bless_config import CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION
+from bless.config.bless_config import CERTIFICATE_VALIDITY_SEC_DEFAULT
+from bless.config.bless_config import ENTROPY_MINIMUM_BITS_DEFAULT
+from bless.config.bless_config import ENTROPY_MINIMUM_BITS_OPTION
+from bless.config.bless_config import HOSTNAME_VALIDATION_DEFAULT
+from bless.config.bless_config import HOSTNAME_VALIDATION_OPTION
+from bless.config.bless_config import KMSAUTH_KEY_ID_OPTION
+from bless.config.bless_config import KMSAUTH_SECTION
+from bless.config.bless_config import KMSAUTH_SERVICE_ID_OPTION
+from bless.config.bless_config import KMSAUTH_USEKMSAUTH_OPTION
+from bless.config.bless_config import LOGGING_LEVEL_DEFAULT
+from bless.config.bless_config import LOGGING_LEVEL_OPTION
+from bless.config.bless_config import RANDOM_SEED_BYTES_DEFAULT
+from bless.config.bless_config import RANDOM_SEED_BYTES_OPTION
+from bless.config.bless_config import REMOTE_USERNAMES_VALIDATION_OPTION
+from bless.config.bless_config import SERVER_CERTIFICATE_VALIDITY_AFTER_SEC_DEFAULT
+from bless.config.bless_config import SERVER_CERTIFICATE_VALIDITY_AFTER_SEC_OPTION
+from bless.config.bless_config import SERVER_CERTIFICATE_VALIDITY_BEFORE_SEC_DEFAULT
+from bless.config.bless_config import SERVER_CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION
+from bless.config.bless_config import USERNAME_VALIDATION_DEFAULT
+from bless.config.bless_config import USERNAME_VALIDATION_OPTION
+from bless.config.bless_config import VALIDATE_REMOTE_USERNAMES_AGAINST_IAM_GROUPS_OPTION
 
 
 def test_empty_config():

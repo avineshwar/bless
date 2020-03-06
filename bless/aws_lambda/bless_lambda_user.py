@@ -6,29 +6,29 @@
 import time
 
 import boto3
-from bless.aws_lambda.bless_lambda_common import (
-    success_response,
-    error_response,
-    set_logger,
-    check_entropy,
-    setup_lambda_cache,
-)
-from bless.config.bless_config import (
-    BLESS_OPTIONS_SECTION,
-    CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION,
-    CERTIFICATE_VALIDITY_AFTER_SEC_OPTION,
-    USERNAME_VALIDATION_OPTION,
-    KMSAUTH_SECTION,
-    KMSAUTH_USEKMSAUTH_OPTION,
-    KMSAUTH_REMOTE_USERNAMES_ALLOWED_OPTION,
-    VALIDATE_REMOTE_USERNAMES_AGAINST_IAM_GROUPS_OPTION,
-    KMSAUTH_SERVICE_ID_OPTION,
-    TEST_USER_OPTION,
-    CERTIFICATE_EXTENSIONS_OPTION,
-    REMOTE_USERNAMES_VALIDATION_OPTION,
-    IAM_GROUP_NAME_VALIDATION_FORMAT_OPTION,
-    REMOTE_USERNAMES_BLACKLIST_OPTION,
-)
+from kmsauth import KMSTokenValidator
+from kmsauth import TokenValidationError
+from marshmallow.exceptions import ValidationError
+
+from bless.aws_lambda.bless_lambda_common import check_entropy
+from bless.aws_lambda.bless_lambda_common import error_response
+from bless.aws_lambda.bless_lambda_common import set_logger
+from bless.aws_lambda.bless_lambda_common import setup_lambda_cache
+from bless.aws_lambda.bless_lambda_common import success_response
+from bless.config.bless_config import BLESS_OPTIONS_SECTION
+from bless.config.bless_config import CERTIFICATE_EXTENSIONS_OPTION
+from bless.config.bless_config import CERTIFICATE_VALIDITY_AFTER_SEC_OPTION
+from bless.config.bless_config import CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION
+from bless.config.bless_config import IAM_GROUP_NAME_VALIDATION_FORMAT_OPTION
+from bless.config.bless_config import KMSAUTH_REMOTE_USERNAMES_ALLOWED_OPTION
+from bless.config.bless_config import KMSAUTH_SECTION
+from bless.config.bless_config import KMSAUTH_SERVICE_ID_OPTION
+from bless.config.bless_config import KMSAUTH_USEKMSAUTH_OPTION
+from bless.config.bless_config import REMOTE_USERNAMES_BLACKLIST_OPTION
+from bless.config.bless_config import REMOTE_USERNAMES_VALIDATION_OPTION
+from bless.config.bless_config import TEST_USER_OPTION
+from bless.config.bless_config import USERNAME_VALIDATION_OPTION
+from bless.config.bless_config import VALIDATE_REMOTE_USERNAMES_AGAINST_IAM_GROUPS_OPTION
 from bless.request.bless_request_user import BlessUserSchema
 from bless.ssh.certificate_authorities.ssh_certificate_authority_factory import (
     get_ssh_certificate_authority,
@@ -37,8 +37,6 @@ from bless.ssh.certificates.ssh_certificate_builder import SSHCertificateType
 from bless.ssh.certificates.ssh_certificate_builder_factory import (
     get_ssh_certificate_builder,
 )
-from kmsauth import KMSTokenValidator, TokenValidationError
-from marshmallow.exceptions import ValidationError
 
 
 def lambda_handler_user(

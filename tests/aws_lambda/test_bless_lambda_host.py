@@ -1,7 +1,8 @@
 import os
 
 from bless.aws_lambda.bless_lambda_host import lambda_handler_host
-from tests.ssh.vectors import EXAMPLE_RSA_PUBLIC_KEY, RSA_CA_PRIVATE_KEY_PASSWORD
+from tests.ssh.vectors import EXAMPLE_RSA_PUBLIC_KEY
+from tests.ssh.vectors import RSA_CA_PRIVATE_KEY_PASSWORD
 
 
 class Context(object):

@@ -3,22 +3,25 @@
     :copyright: (c) 2016 by Netflix Inc., see AUTHORS for more
     :license: Apache, see LICENSE for more details.
 """
+import ipaddress
 import re
 from enum import Enum
 
-import ipaddress
-from bless.config.bless_config import (
-    USERNAME_VALIDATION_OPTION,
-    REMOTE_USERNAMES_VALIDATION_OPTION,
-    USERNAME_VALIDATION_DEFAULT,
-    REMOTE_USERNAMES_VALIDATION_DEFAULT,
-    REMOTE_USERNAMES_BLACKLIST_OPTION,
-    REMOTE_USERNAMES_BLACKLIST_DEFAULT,
-)
-from bless.request.bless_request_common import validate_ssh_public_key
-from marshmallow import Schema, fields, post_load, ValidationError, validates_schema
+from marshmallow import fields
+from marshmallow import post_load
+from marshmallow import Schema
 from marshmallow import validates
+from marshmallow import validates_schema
+from marshmallow import ValidationError
 from marshmallow.validate import Email
+
+from bless.config.bless_config import REMOTE_USERNAMES_BLACKLIST_DEFAULT
+from bless.config.bless_config import REMOTE_USERNAMES_BLACKLIST_OPTION
+from bless.config.bless_config import REMOTE_USERNAMES_VALIDATION_DEFAULT
+from bless.config.bless_config import REMOTE_USERNAMES_VALIDATION_OPTION
+from bless.config.bless_config import USERNAME_VALIDATION_DEFAULT
+from bless.config.bless_config import USERNAME_VALIDATION_OPTION
+from bless.request.bless_request_common import validate_ssh_public_key
 
 # man 8 useradd
 USERNAME_PATTERN = re.compile(r"[a-z_][a-z0-9_-]*[$]?\Z")

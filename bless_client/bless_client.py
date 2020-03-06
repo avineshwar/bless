@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 """bless_client
 A sample client to invoke the BLESS Lambda function and save the signed SSH Certificate.
 
