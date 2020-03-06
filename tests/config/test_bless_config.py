@@ -47,23 +47,26 @@ def test_config_no_password():
             "bogus-region",
             config_file=os.path.join(os.path.dirname(__file__), "full.cfg"),
         )
-    assert "No Region Specific And No Default Password Provided." == str(e.value)
+    assert "No Region Specific And No Default Password Provided." == str(
+        e.value)
 
     config = BlessConfig(
         "bogus-region",
-        config_file=os.path.join(os.path.dirname(__file__), "full-with-default.cfg"),
+        config_file=os.path.join(os.path.dirname(__file__),
+                                 "full-with-default.cfg"),
     )
-    assert (
-        "<INSERT_DEFAULT_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>"
-        == config.getpassword()
-    )
+    assert ("<INSERT_DEFAULT_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>"
+            == config.getpassword())
 
 
 def test_wrong_compression_env_key(monkeypatch):
     extra_environment_variables = {
-        "bless_ca_default_password": "<INSERT_DEFAULT_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>",
-        "bless_ca_ca_private_key_compression": "lzh",
-        "bless_ca_ca_private_key": str(
+        "bless_ca_default_password":
+        "<INSERT_DEFAULT_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>",
+        "bless_ca_ca_private_key_compression":
+        "lzh",
+        "bless_ca_ca_private_key":
+        str(
             base64.b64encode(b"<INSERT_YOUR_ENCRYPTED_PEM_FILE_CONTENT>"),
             encoding="ascii",
         ),
@@ -83,9 +86,12 @@ def test_wrong_compression_env_key(monkeypatch):
 
 def test_none_compression_env_key(monkeypatch):
     extra_environment_variables = {
-        "bless_ca_default_password": "<INSERT_DEFAULT_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>",
-        "bless_ca_ca_private_key_compression": "none",
-        "bless_ca_ca_private_key": str(
+        "bless_ca_default_password":
+        "<INSERT_DEFAULT_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>",
+        "bless_ca_ca_private_key_compression":
+        "none",
+        "bless_ca_ca_private_key":
+        str(
             base64.b64encode(b"<INSERT_YOUR_ENCRYPTED_PEM_FILE_CONTENT>"),
             encoding="ascii",
         ),
@@ -97,17 +103,20 @@ def test_none_compression_env_key(monkeypatch):
     # Create an empty config, everything is set in the environment
     config = BlessConfig("us-east-1", config_file="")
 
-    assert b"<INSERT_YOUR_ENCRYPTED_PEM_FILE_CONTENT>" == config.getprivatekey()
+    assert b"<INSERT_YOUR_ENCRYPTED_PEM_FILE_CONTENT>" == config.getprivatekey(
+    )
 
 
 def test_zlib_positive_compression(monkeypatch):
     extra_environment_variables = {
-        "bless_ca_default_password": "<INSERT_DEFAULT_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>",
-        "bless_ca_ca_private_key_compression": "zlib",
-        "bless_ca_ca_private_key": str(
+        "bless_ca_default_password":
+        "<INSERT_DEFAULT_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>",
+        "bless_ca_ca_private_key_compression":
+        "zlib",
+        "bless_ca_ca_private_key":
+        str(
             base64.b64encode(
-                zlib.compress(b"<INSERT_YOUR_ENCRYPTED_PEM_FILE_CONTENT>")
-            ),
+                zlib.compress(b"<INSERT_YOUR_ENCRYPTED_PEM_FILE_CONTENT>")),
             encoding="ascii",
         ),
     }
@@ -118,14 +127,18 @@ def test_zlib_positive_compression(monkeypatch):
     # Create an empty config, everything is set in the environment
     config = BlessConfig("us-east-1", config_file="")
 
-    assert b"<INSERT_YOUR_ENCRYPTED_PEM_FILE_CONTENT>" == config.getprivatekey()
+    assert b"<INSERT_YOUR_ENCRYPTED_PEM_FILE_CONTENT>" == config.getprivatekey(
+    )
 
 
 def test_zlib_compression_env_with_uncompressed_key(monkeypatch):
     extra_environment_variables = {
-        "bless_ca_default_password": "<INSERT_DEFAULT_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>",
-        "bless_ca_ca_private_key_compression": "zlib",
-        "bless_ca_ca_private_key": str(
+        "bless_ca_default_password":
+        "<INSERT_DEFAULT_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>",
+        "bless_ca_ca_private_key_compression":
+        "zlib",
+        "bless_ca_ca_private_key":
+        str(
             base64.b64encode(b"<INSERT_YOUR_ENCRYPTED_PEM_FILE_CONTENT>"),
             encoding="ascii",
         ),
@@ -143,27 +156,45 @@ def test_zlib_compression_env_with_uncompressed_key(monkeypatch):
 
 def test_config_environment_override(monkeypatch):
     extra_environment_variables = {
-        "bless_options_certificate_validity_after_seconds": "1",
-        "bless_options_certificate_validity_before_seconds": "1",
-        "bless_options_server_certificate_validity_after_seconds": "1",
-        "bless_options_server_certificate_validity_before_seconds": "1",
-        "bless_options_hostname_validation": "disabled",
-        "bless_options_entropy_minimum_bits": "2",
-        "bless_options_random_seed_bytes": "3",
-        "bless_options_logging_level": "DEBUG",
-        "bless_options_certificate_extensions": "permit-X11-forwarding",
-        "bless_options_username_validation": "debian",
-        "bless_options_remote_usernames_validation": "useradd",
-        "bless_ca_us_east_1_password": "<INSERT_US-EAST-1_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>",
-        "bless_ca_default_password": "<INSERT_DEFAULT_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>",
-        "bless_ca_ca_private_key_file": "<INSERT_YOUR_ENCRYPTED_PEM_FILE_NAME>",
-        "bless_ca_ca_private_key": str(
+        "bless_options_certificate_validity_after_seconds":
+        "1",
+        "bless_options_certificate_validity_before_seconds":
+        "1",
+        "bless_options_server_certificate_validity_after_seconds":
+        "1",
+        "bless_options_server_certificate_validity_before_seconds":
+        "1",
+        "bless_options_hostname_validation":
+        "disabled",
+        "bless_options_entropy_minimum_bits":
+        "2",
+        "bless_options_random_seed_bytes":
+        "3",
+        "bless_options_logging_level":
+        "DEBUG",
+        "bless_options_certificate_extensions":
+        "permit-X11-forwarding",
+        "bless_options_username_validation":
+        "debian",
+        "bless_options_remote_usernames_validation":
+        "useradd",
+        "bless_ca_us_east_1_password":
+        "<INSERT_US-EAST-1_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>",
+        "bless_ca_default_password":
+        "<INSERT_DEFAULT_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>",
+        "bless_ca_ca_private_key_file":
+        "<INSERT_YOUR_ENCRYPTED_PEM_FILE_NAME>",
+        "bless_ca_ca_private_key":
+        str(
             base64.b64encode(b"<INSERT_YOUR_ENCRYPTED_PEM_FILE_CONTENT>"),
             encoding="ascii",
         ),
-        "kms_auth_use_kmsauth": "True",
-        "kms_auth_kmsauth_key_id": "<INSERT_ARN>",
-        "kms_auth_kmsauth_serviceid": "bless-test",
+        "kms_auth_use_kmsauth":
+        "True",
+        "kms_auth_kmsauth_key_id":
+        "<INSERT_ARN>",
+        "kms_auth_kmsauth_serviceid":
+        "bless-test",
     }
 
     for k, v in extra_environment_variables.items():
@@ -172,48 +203,42 @@ def test_config_environment_override(monkeypatch):
     # Create an empty config, everything is set in the environment
     config = BlessConfig("us-east-1", config_file="")
 
-    assert 1 == config.getint(
-        BLESS_OPTIONS_SECTION, CERTIFICATE_VALIDITY_AFTER_SEC_OPTION
-    )
-    assert 1 == config.getint(
-        BLESS_OPTIONS_SECTION, CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION
-    )
-    assert 1 == config.getint(
-        BLESS_OPTIONS_SECTION, SERVER_CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION
-    )
-    assert 1 == config.getint(
-        BLESS_OPTIONS_SECTION, SERVER_CERTIFICATE_VALIDITY_AFTER_SEC_OPTION
-    )
-    assert 2 == config.getint(BLESS_OPTIONS_SECTION, ENTROPY_MINIMUM_BITS_OPTION)
+    assert 1 == config.getint(BLESS_OPTIONS_SECTION,
+                              CERTIFICATE_VALIDITY_AFTER_SEC_OPTION)
+    assert 1 == config.getint(BLESS_OPTIONS_SECTION,
+                              CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION)
+    assert 1 == config.getint(BLESS_OPTIONS_SECTION,
+                              SERVER_CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION)
+    assert 1 == config.getint(BLESS_OPTIONS_SECTION,
+                              SERVER_CERTIFICATE_VALIDITY_AFTER_SEC_OPTION)
+    assert 2 == config.getint(BLESS_OPTIONS_SECTION,
+                              ENTROPY_MINIMUM_BITS_OPTION)
     assert 3 == config.getint(BLESS_OPTIONS_SECTION, RANDOM_SEED_BYTES_OPTION)
     assert "DEBUG" == config.get(BLESS_OPTIONS_SECTION, LOGGING_LEVEL_OPTION)
     assert "permit-X11-forwarding" == config.get(
-        BLESS_OPTIONS_SECTION, CERTIFICATE_EXTENSIONS_OPTION
-    )
-    assert "debian" == config.get(BLESS_OPTIONS_SECTION, USERNAME_VALIDATION_OPTION)
-    assert "disabled" == config.get(BLESS_OPTIONS_SECTION, HOSTNAME_VALIDATION_OPTION)
-    assert "useradd" == config.get(
-        BLESS_OPTIONS_SECTION, REMOTE_USERNAMES_VALIDATION_OPTION
-    )
+        BLESS_OPTIONS_SECTION, CERTIFICATE_EXTENSIONS_OPTION)
+    assert "debian" == config.get(BLESS_OPTIONS_SECTION,
+                                  USERNAME_VALIDATION_OPTION)
+    assert "disabled" == config.get(BLESS_OPTIONS_SECTION,
+                                    HOSTNAME_VALIDATION_OPTION)
+    assert "useradd" == config.get(BLESS_OPTIONS_SECTION,
+                                   REMOTE_USERNAMES_VALIDATION_OPTION)
 
-    assert (
-        "<INSERT_US-EAST-1_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>"
-        == config.getpassword()
-    )
+    assert ("<INSERT_US-EAST-1_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>"
+            == config.getpassword())
     assert "<INSERT_YOUR_ENCRYPTED_PEM_FILE_NAME>" == config.get(
-        BLESS_CA_SECTION, CA_PRIVATE_KEY_FILE_OPTION
+        BLESS_CA_SECTION, CA_PRIVATE_KEY_FILE_OPTION)
+    assert b"<INSERT_YOUR_ENCRYPTED_PEM_FILE_CONTENT>" == config.getprivatekey(
     )
-    assert b"<INSERT_YOUR_ENCRYPTED_PEM_FILE_CONTENT>" == config.getprivatekey()
 
     assert config.getboolean(KMSAUTH_SECTION, KMSAUTH_USEKMSAUTH_OPTION)
     assert "<INSERT_ARN>" == config.get(KMSAUTH_SECTION, KMSAUTH_KEY_ID_OPTION)
-    assert "bless-test" == config.get(KMSAUTH_SECTION, KMSAUTH_SERVICE_ID_OPTION)
+    assert "bless-test" == config.get(KMSAUTH_SECTION,
+                                      KMSAUTH_SERVICE_ID_OPTION)
 
     config.aws_region = "invalid"
-    assert (
-        "<INSERT_DEFAULT_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>"
-        == config.getpassword()
-    )
+    assert ("<INSERT_DEFAULT_KMS_ENCRYPTED_BASE64_ENCODED_PEM_PASSWORD_HERE>"
+            == config.getpassword())
 
 
 @pytest.mark.parametrize(
@@ -267,67 +292,59 @@ def test_config_environment_override(monkeypatch):
     ],
 )
 def test_configs(
-    config,
-    region,
-    expected_cert_valid,
-    expected_entropy_min,
-    expected_rand_seed,
-    expected_host_cert_before_valid,
-    expected_host_cert_after_valid,
-    expected_log_level,
-    expected_password,
-    expected_username_validation,
-    expected_hostname_validation,
-    expected_key_compression,
+        config,
+        region,
+        expected_cert_valid,
+        expected_entropy_min,
+        expected_rand_seed,
+        expected_host_cert_before_valid,
+        expected_host_cert_after_valid,
+        expected_log_level,
+        expected_password,
+        expected_username_validation,
+        expected_hostname_validation,
+        expected_key_compression,
 ):
     config = BlessConfig(region, config_file=config)
     assert expected_cert_valid == config.getint(
-        BLESS_OPTIONS_SECTION, CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION
-    )
+        BLESS_OPTIONS_SECTION, CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION)
     assert expected_cert_valid == config.getint(
-        BLESS_OPTIONS_SECTION, CERTIFICATE_VALIDITY_AFTER_SEC_OPTION
-    )
-    assert expected_entropy_min == config.getint(
-        BLESS_OPTIONS_SECTION, ENTROPY_MINIMUM_BITS_OPTION
-    )
-    assert expected_rand_seed == config.getint(
-        BLESS_OPTIONS_SECTION, RANDOM_SEED_BYTES_OPTION
-    )
+        BLESS_OPTIONS_SECTION, CERTIFICATE_VALIDITY_AFTER_SEC_OPTION)
+    assert expected_entropy_min == config.getint(BLESS_OPTIONS_SECTION,
+                                                 ENTROPY_MINIMUM_BITS_OPTION)
+    assert expected_rand_seed == config.getint(BLESS_OPTIONS_SECTION,
+                                               RANDOM_SEED_BYTES_OPTION)
     assert expected_host_cert_before_valid == config.getint(
-        BLESS_OPTIONS_SECTION, SERVER_CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION
-    )
+        BLESS_OPTIONS_SECTION, SERVER_CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION)
     assert expected_host_cert_after_valid == config.getint(
-        BLESS_OPTIONS_SECTION, SERVER_CERTIFICATE_VALIDITY_AFTER_SEC_OPTION
-    )
-    assert expected_log_level == config.get(BLESS_OPTIONS_SECTION, LOGGING_LEVEL_OPTION)
+        BLESS_OPTIONS_SECTION, SERVER_CERTIFICATE_VALIDITY_AFTER_SEC_OPTION)
+    assert expected_log_level == config.get(BLESS_OPTIONS_SECTION,
+                                            LOGGING_LEVEL_OPTION)
     assert expected_password == config.getpassword()
     assert expected_username_validation == config.get(
-        BLESS_OPTIONS_SECTION, USERNAME_VALIDATION_OPTION
-    )
+        BLESS_OPTIONS_SECTION, USERNAME_VALIDATION_OPTION)
     assert expected_hostname_validation == config.get(
-        BLESS_OPTIONS_SECTION, HOSTNAME_VALIDATION_OPTION
-    )
+        BLESS_OPTIONS_SECTION, HOSTNAME_VALIDATION_OPTION)
     assert expected_key_compression == config.get(
-        BLESS_CA_SECTION, CA_PRIVATE_KEY_COMPRESSION_OPTION
-    )
+        BLESS_CA_SECTION, CA_PRIVATE_KEY_COMPRESSION_OPTION)
 
 
 def test_kms_config_opts(monkeypatch):
     # Default option
-    config = BlessConfig(
-        "us-east-1", config_file=os.path.join(os.path.dirname(__file__), "full.cfg")
-    )
-    assert config.getboolean(KMSAUTH_SECTION, KMSAUTH_USEKMSAUTH_OPTION) is False
+    config = BlessConfig("us-east-1",
+                         config_file=os.path.join(os.path.dirname(__file__),
+                                                  "full.cfg"))
+    assert config.getboolean(KMSAUTH_SECTION,
+                             KMSAUTH_USEKMSAUTH_OPTION) is False
 
     # Config file value
     config = BlessConfig(
         "us-east-1",
-        config_file=os.path.join(os.path.dirname(__file__), "full-with-kmsauth.cfg"),
+        config_file=os.path.join(os.path.dirname(__file__),
+                                 "full-with-kmsauth.cfg"),
     )
-    assert config.getboolean(KMSAUTH_SECTION, KMSAUTH_USEKMSAUTH_OPTION) is True
-    assert (
-        config.getboolean(
-            KMSAUTH_SECTION, VALIDATE_REMOTE_USERNAMES_AGAINST_IAM_GROUPS_OPTION
-        )
-        is False
-    )
+    assert config.getboolean(KMSAUTH_SECTION,
+                             KMSAUTH_USEKMSAUTH_OPTION) is True
+    assert (config.getboolean(
+        KMSAUTH_SECTION, VALIDATE_REMOTE_USERNAMES_AGAINST_IAM_GROUPS_OPTION)
+            is False)

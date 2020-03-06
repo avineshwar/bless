@@ -30,8 +30,7 @@ def main(argv):
     if len(argv) != 5:
         print(
             "Usage: bless_client_host.py region lambda_function_name hostnames <id_rsa.pub to sign> "
-            "<output id_rsa-cert.pub>"
-        )
+            "<output id_rsa-cert.pub>")
         print(len(argv))
         return -1
 
@@ -74,8 +73,8 @@ def main(argv):
     cert = payload["certificate"]
 
     with os.fdopen(
-        os.open(certificate_filename, os.O_WRONLY | os.O_CREAT, 0o600), "w"
-    ) as cert_file:
+            os.open(certificate_filename, os.O_WRONLY | os.O_CREAT, 0o600),
+            "w") as cert_file:
         cert_file.write(cert)
 
     # If cert_file already existed with the incorrect permissions, fix them.

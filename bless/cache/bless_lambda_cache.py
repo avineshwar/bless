@@ -41,8 +41,7 @@ class BlessLambdaCache:
             kms_client = boto3.client("kms", region_name=self.region)
             try:
                 ca_password = kms_client.decrypt(
-                    CiphertextBlob=base64.b64decode(password_ciphertext_b64)
-                )
+                    CiphertextBlob=base64.b64decode(password_ciphertext_b64))
                 self.ca_private_key_password = ca_password["Plaintext"]
             except ClientError as e:
                 self.ca_private_key_password_error = str(e)

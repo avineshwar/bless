@@ -97,7 +97,8 @@ class BlessUserSchema(Schema):
     bastion_user = fields.Str(required=True)
     bastion_user_ip = fields.Str(validate=validate_ips, required=True)
     command = fields.Str(required=True)
-    public_key_to_sign = fields.Str(validate=validate_ssh_public_key, required=True)
+    public_key_to_sign = fields.Str(validate=validate_ssh_public_key,
+                                    required=True)
     remote_usernames = fields.Str(required=True)
     kmsauth_token = fields.Str(required=False)
 
@@ -115,42 +116,40 @@ class BlessUserSchema(Schema):
     def validate_bastion_user(self, user):
         if USERNAME_VALIDATION_OPTION in self.context:
             username_validation = USERNAME_VALIDATION_OPTIONS[
-                self.context[USERNAME_VALIDATION_OPTION]
-            ]
+                self.context[USERNAME_VALIDATION_OPTION]]
         else:
             username_validation = USERNAME_VALIDATION_OPTIONS[
-                USERNAME_VALIDATION_DEFAULT
-            ]
+                USERNAME_VALIDATION_DEFAULT]
         validate_user(user, username_validation)
 
     @validates("remote_usernames")
     def validate_remote_usernames(self, remote_usernames):
         if REMOTE_USERNAMES_VALIDATION_OPTION in self.context:
             username_validation = USERNAME_VALIDATION_OPTIONS[
-                self.context[REMOTE_USERNAMES_VALIDATION_OPTION]
-            ]
+                self.context[REMOTE_USERNAMES_VALIDATION_OPTION]]
         else:
             username_validation = USERNAME_VALIDATION_OPTIONS[
-                REMOTE_USERNAMES_VALIDATION_DEFAULT
-            ]
+                REMOTE_USERNAMES_VALIDATION_DEFAULT]
         if REMOTE_USERNAMES_BLACKLIST_OPTION in self.context:
-            username_blacklist = self.context[REMOTE_USERNAMES_BLACKLIST_OPTION]
+            username_blacklist = self.context[
+                REMOTE_USERNAMES_BLACKLIST_OPTION]
         else:
             username_blacklist = REMOTE_USERNAMES_BLACKLIST_DEFAULT
         for remote_username in remote_usernames.split(","):
-            validate_user(remote_username, username_validation, username_blacklist)
+            validate_user(remote_username, username_validation,
+                          username_blacklist)
 
 
 class BlessUserRequest:
     def __init__(
-        self,
-        bastion_ips,
-        bastion_user,
-        bastion_user_ip,
-        command,
-        public_key_to_sign,
-        remote_usernames,
-        kmsauth_token=None,
+            self,
+            bastion_ips,
+            bastion_user,
+            bastion_user_ip,
+            command,
+            public_key_to_sign,
+            remote_usernames,
+            kmsauth_token=None,
     ):
         """
         A BlessRequest must have the following key value pairs to be valid.

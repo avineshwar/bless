@@ -43,8 +43,7 @@ def main(argv):
         print(
             "Usage: bless_client.py region lambda_function_name bastion_user bastion_user_ip "
             "remote_usernames bastion_ips bastion_command <id_rsa.pub to sign> "
-            "<output id_rsa-cert.pub> [kmsauth token]"
-        )
+            "<output id_rsa-cert.pub> [kmsauth token]")
         return -1
 
     (
@@ -100,8 +99,8 @@ def main(argv):
     cert = payload["certificate"]
 
     with os.fdopen(
-        os.open(certificate_filename, os.O_WRONLY | os.O_CREAT, 0o600), "w"
-    ) as cert_file:
+            os.open(certificate_filename, os.O_WRONLY | os.O_CREAT, 0o600),
+            "w") as cert_file:
         cert_file.write(cert)
 
     # If cert_file already existed with the incorrect permissions, fix them.

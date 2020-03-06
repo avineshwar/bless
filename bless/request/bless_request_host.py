@@ -18,7 +18,9 @@ from bless.config.bless_config import HOSTNAME_VALIDATION_OPTION
 from bless.request.bless_request_common import validate_ssh_public_key
 
 HOSTNAME_VALIDATION_OPTIONS = Enum(
-    "HostNameValidationOptions", "url " "disabled"  # Valid url format  # no validation
+    "HostNameValidationOptions",
+    "url "
+    "disabled"  # Valid url format  # no validation
 )
 
 
@@ -26,15 +28,16 @@ def validate_hostname(hostname, hostname_validation):
     if hostname_validation == HOSTNAME_VALIDATION_OPTIONS.disabled:
         return
     else:
-        validator = URL(
-            require_tld=False, schemes="ssh", error='Invalid hostname "{input}".'
-        )
+        validator = URL(require_tld=False,
+                        schemes="ssh",
+                        error='Invalid hostname "{input}".')
         validator("ssh://{}".format(hostname))
 
 
 class BlessHostSchema(Schema):
     hostnames = fields.Str(required=True)
-    public_key_to_sign = fields.Str(validate=validate_ssh_public_key, required=True)
+    public_key_to_sign = fields.Str(validate=validate_ssh_public_key,
+                                    required=True)
 
     @validates_schema(pass_original=True)
     def check_unknown_fields(self, data, original_data):
@@ -50,12 +53,10 @@ class BlessHostSchema(Schema):
     def validate_hostnames(self, hostnames):
         if HOSTNAME_VALIDATION_OPTION in self.context:
             hostname_validation = HOSTNAME_VALIDATION_OPTIONS[
-                self.context[HOSTNAME_VALIDATION_OPTION]
-            ]
+                self.context[HOSTNAME_VALIDATION_OPTION]]
         else:
             hostname_validation = HOSTNAME_VALIDATION_OPTIONS[
-                HOSTNAME_VALIDATION_DEFAULT
-            ]
+                HOSTNAME_VALIDATION_DEFAULT]
         for hostname in hostnames.split(","):
             validate_hostname(hostname, hostname_validation)
 

@@ -27,9 +27,8 @@ def test_validate_ips_cidr():
 
 def test_validate_user_too_long():
     with pytest.raises(ValidationError) as e:
-        validate_user(
-            "a33characterusernameyoumustbenuts", USERNAME_VALIDATION_OPTIONS.useradd
-        )
+        validate_user("a33characterusernameyoumustbenuts",
+                      USERNAME_VALIDATION_OPTIONS.useradd)
     assert str(e.value) == "Username is too long."
 
 
@@ -64,9 +63,8 @@ def test_validate_user(test_input):
 
 def test_validate_user_debian_too_long():
     with pytest.raises(ValidationError) as e:
-        validate_user(
-            "a33characterusernameyoumustbenuts", USERNAME_VALIDATION_OPTIONS.debian
-        )
+        validate_user("a33characterusernameyoumustbenuts",
+                      USERNAME_VALIDATION_OPTIONS.debian)
     assert str(e.value) == "Username is too long."
 
 
@@ -89,9 +87,8 @@ def test_validate_user_debian_invalid(test_input):
     assert str(e.value) == "Username contains invalid characters."
 
 
-@pytest.mark.parametrize(
-    "test_input", [("root"), ("admin"), ("administrator"), ("balrog"), ("teal'c")]
-)
+@pytest.mark.parametrize("test_input", [("root"), ("admin"), ("administrator"),
+                                        ("balrog"), ("teal'c")])
 def test_validate_user_blacklist(test_input):
     with pytest.raises(ValidationError) as e:
         validate_user(
@@ -123,9 +120,8 @@ def test_validate_user_debian(test_input):
     [
         ("uservalid"),
         ("a32characterusernameyoumustok$"),
-        (
-            "!\"$%&'()*+-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
-        ),
+        ("!\"$%&'()*+-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+         ),
     ],
 )
 def test_validate_user_principal(test_input):
@@ -144,9 +140,10 @@ def test_validate_user_email(test_input):
     validate_user(test_input, USERNAME_VALIDATION_OPTIONS.email)
 
 
-@pytest.mark.parametrize(
-    "test_input", [("a33characterusernameyoumustbenuts@ex@mple.com"), ("a@example"),]
-)
+@pytest.mark.parametrize("test_input", [
+    ("a33characterusernameyoumustbenuts@ex@mple.com"),
+    ("a@example"),
+])
 def test_invalid_user_email(test_input):
     with pytest.raises(ValidationError) as e:
         validate_user(test_input, USERNAME_VALIDATION_OPTIONS.email)
@@ -158,9 +155,8 @@ def test_invalid_user_email(test_input):
     [
         ("a33characterusernameyoumustbenuts"),
         ("~:, \n\t@"),
-        (
-            "uservalid,!\"$%&'()*+-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~,"
-        ),
+        ("uservalid,!\"$%&'()*+-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~,"
+         ),
     ],
 )
 def test_validate_user_disabled(test_input):
@@ -172,10 +168,8 @@ def test_validate_user_disabled(test_input):
     [
         ("uservalid"),
         ("uservalid,uservalid2"),
-        (
-            "uservalid,!\"$%&'()*+-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~,"
-            "uservalid2"
-        ),
+        ("uservalid,!\"$%&'()*+-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~,"
+         "uservalid2"),
     ],
 )
 def test_validate_multiple_principals(test_input):
@@ -183,11 +177,9 @@ def test_validate_multiple_principals(test_input):
 
     schema = BlessUserSchema()
     schema.context[
-        USERNAME_VALIDATION_OPTION
-    ] = USERNAME_VALIDATION_OPTIONS.principal.name
+        USERNAME_VALIDATION_OPTION] = USERNAME_VALIDATION_OPTIONS.principal.name
     schema.context[
-        REMOTE_USERNAMES_VALIDATION_OPTION
-    ] = USERNAME_VALIDATION_OPTIONS.principal.name
+        REMOTE_USERNAMES_VALIDATION_OPTION] = USERNAME_VALIDATION_OPTIONS.principal.name
     schema.context[REMOTE_USERNAMES_BLACKLIST_OPTION] = "balrog"
     schema.validate_remote_usernames(test_input)
 

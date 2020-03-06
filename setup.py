@@ -18,7 +18,9 @@ setup(
     description=about["__summary__"],
     license=about["__license__"],
     packages=find_packages(exclude=["test*"]),
-    install_requires=["boto3", "cryptography", "ipaddress", "marshmallow", "kmsauth"],
+    install_requires=[
+        "boto3", "cryptography", "ipaddress", "marshmallow", "kmsauth"
+    ],
     extras_require={
         "tests": ["coverage", "flake8", "pyflakes", "pytest", "pytest-mock"]
     },

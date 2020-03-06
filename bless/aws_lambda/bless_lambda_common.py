@@ -42,10 +42,10 @@ def check_entropy(config, logger):
     """
     region = os.environ["AWS_REGION"]
     kms_client = boto3.client("kms", region_name=region)
-    entropy_minimum_bits = config.getint(
-        BLESS_OPTIONS_SECTION, ENTROPY_MINIMUM_BITS_OPTION
-    )
-    random_seed_bytes = config.getint(BLESS_OPTIONS_SECTION, RANDOM_SEED_BYTES_OPTION)
+    entropy_minimum_bits = config.getint(BLESS_OPTIONS_SECTION,
+                                         ENTROPY_MINIMUM_BITS_OPTION)
+    random_seed_bytes = config.getint(BLESS_OPTIONS_SECTION,
+                                      RANDOM_SEED_BYTES_OPTION)
 
     with open("/proc/sys/kernel/random/entropy_avail", "r") as f:
         entropy = int(f.read())
@@ -54,10 +54,9 @@ def check_entropy(config, logger):
             logger.info(
                 "System entropy was {}, which is lower than the entropy_"
                 "minimum {}.  Using KMS to seed /dev/urandom".format(
-                    entropy, entropy_minimum_bits
-                )
-            )
-            response = kms_client.generate_random(NumberOfBytes=random_seed_bytes)
+                    entropy, entropy_minimum_bits))
+            response = kms_client.generate_random(
+                NumberOfBytes=random_seed_bytes)
             random_seed = response["Plaintext"]
             with open("/dev/urandom", "w") as urandom:
                 urandom.write(random_seed)
@@ -70,8 +69,7 @@ def setup_lambda_cache(ca_private_key_password, config_file):
         bless_cache = BlessLambdaCache(ca_private_key_password, config_file)
     elif global_bless_cache is None:
         global_bless_cache = BlessLambdaCache(
-            config_file=os.path.join(os.getcwd(), "bless_deploy.cfg")
-        )
+            config_file=os.path.join(os.getcwd(), "bless_deploy.cfg"))
         bless_cache = global_bless_cache
     else:
         bless_cache = global_bless_cache

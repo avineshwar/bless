@@ -4,8 +4,7 @@ import pytest
 from cryptography.hazmat.primitives.serialization.ssh import _ssh_read_next_string
 
 from bless.ssh.certificate_authorities.rsa_certificate_authority import (
-    RSACertificateAuthority,
-)
+    RSACertificateAuthority, )
 from bless.ssh.certificates.ed25519_certificate_builder import ED25519CertificateBuilder
 from bless.ssh.certificates.rsa_certificate_builder import RSACertificateBuilder
 from bless.ssh.certificates.ssh_certificate_builder import SSHCertificateType
@@ -40,12 +39,12 @@ def get_basic_public_key(public_key):
 
 
 def get_basic_rsa_ca():
-    return RSACertificateAuthority(RSA_CA_PRIVATE_KEY, RSA_CA_PRIVATE_KEY_PASSWORD)
+    return RSACertificateAuthority(RSA_CA_PRIVATE_KEY,
+                                   RSA_CA_PRIVATE_KEY_PASSWORD)
 
 
-def get_basic_cert_builder_rsa(
-    cert_type=SSHCertificateType.USER, public_key=EXAMPLE_RSA_PUBLIC_KEY
-):
+def get_basic_cert_builder_rsa(cert_type=SSHCertificateType.USER,
+                               public_key=EXAMPLE_RSA_PUBLIC_KEY):
     ca = get_basic_rsa_ca()
     pub_key = get_basic_public_key(public_key)
     return RSACertificateBuilder(ca, cert_type, pub_key)
@@ -100,8 +99,7 @@ def test_serialize_one_principal():
 def test_serialize_multiple_principals():
     users = "user1,user2,other_user1,other_user2"
     expected = base64.b64decode(
-        "AAAABXVzZXIxAAAABXVzZXIyAAAAC290aGVyX3VzZXIxAAAAC290aGVyX3VzZXIy"
-    )
+        "AAAABXVzZXIxAAAABXVzZXIyAAAAC290aGVyX3VzZXIxAAAAC290aGVyX3VzZXIy")
 
     cert = get_basic_cert_builder_rsa()
     for user in users.split(","):
@@ -137,7 +135,8 @@ def test_bogus_critical_options():
 
 def test_rsa_user_cert_minimal():
     cert_builder = get_basic_cert_builder_rsa()
-    cert_builder.set_nonce(nonce=extract_nonce_from_cert(RSA_USER_CERT_MINIMAL))
+    cert_builder.set_nonce(
+        nonce=extract_nonce_from_cert(RSA_USER_CERT_MINIMAL))
     cert_builder.clear_extensions()
     cert = cert_builder.get_cert_file()
     assert RSA_USER_CERT_MINIMAL == cert
@@ -162,7 +161,8 @@ def test_add_extensions():
 
 def test_rsa_user_cert_defaults():
     cert_builder = get_basic_cert_builder_rsa()
-    cert_builder.set_nonce(nonce=extract_nonce_from_cert(RSA_USER_CERT_DEFAULTS))
+    cert_builder.set_nonce(
+        nonce=extract_nonce_from_cert(RSA_USER_CERT_DEFAULTS))
     cert_builder.set_key_id(RSA_USER_CERT_DEFAULTS_KEY_ID)
 
     cert = cert_builder.get_cert_file()
@@ -171,7 +171,8 @@ def test_rsa_user_cert_defaults():
 
 def test_rsa_user_cert_duplicate_signs():
     cert_builder = get_basic_cert_builder_rsa()
-    cert_builder.set_nonce(nonce=extract_nonce_from_cert(RSA_USER_CERT_DEFAULTS))
+    cert_builder.set_nonce(
+        nonce=extract_nonce_from_cert(RSA_USER_CERT_DEFAULTS))
     cert_builder.set_key_id(RSA_USER_CERT_DEFAULTS_KEY_ID)
     cert_builder._sign_cert()
 
@@ -181,12 +182,11 @@ def test_rsa_user_cert_duplicate_signs():
 
 def test_rsa_user_cert_defaults_no_public_key_comment():
     cert_builder = get_basic_cert_builder_rsa(
-        public_key=EXAMPLE_RSA_PUBLIC_KEY_NO_DESCRIPTION
-    )
-    cert_builder.set_nonce(
-        nonce=extract_nonce_from_cert(RSA_USER_CERT_DEFAULTS_NO_PUBLIC_KEY_COMMENT)
-    )
-    cert_builder.set_key_id(RSA_USER_CERT_DEFAULTS_NO_PUBLIC_KEY_COMMENT_KEY_ID)
+        public_key=EXAMPLE_RSA_PUBLIC_KEY_NO_DESCRIPTION)
+    cert_builder.set_nonce(nonce=extract_nonce_from_cert(
+        RSA_USER_CERT_DEFAULTS_NO_PUBLIC_KEY_COMMENT))
+    cert_builder.set_key_id(
+        RSA_USER_CERT_DEFAULTS_NO_PUBLIC_KEY_COMMENT_KEY_ID)
 
     cert = cert_builder.get_cert_file()
     assert RSA_USER_CERT_DEFAULTS_NO_PUBLIC_KEY_COMMENT == cert
@@ -194,7 +194,8 @@ def test_rsa_user_cert_defaults_no_public_key_comment():
 
 def test_rsa_user_cert_many_principals():
     cert_builder = get_basic_cert_builder_rsa()
-    cert_builder.set_nonce(nonce=extract_nonce_from_cert(RSA_USER_CERT_MANY_PRINCIPALS))
+    cert_builder.set_nonce(
+        nonce=extract_nonce_from_cert(RSA_USER_CERT_MANY_PRINCIPALS))
     cert_builder.set_key_id(RSA_USER_CERT_MANY_PRINCIPALS_KEY_ID)
 
     principals = "user1,user2,other_user1,other_user2"
@@ -206,8 +207,10 @@ def test_rsa_user_cert_many_principals():
 
 
 def test_rsa_host_cert_many_principals():
-    cert_builder = get_basic_cert_builder_rsa(cert_type=SSHCertificateType.HOST)
-    cert_builder.set_nonce(nonce=extract_nonce_from_cert(RSA_HOST_CERT_MANY_PRINCIPALS))
+    cert_builder = get_basic_cert_builder_rsa(
+        cert_type=SSHCertificateType.HOST)
+    cert_builder.set_nonce(
+        nonce=extract_nonce_from_cert(RSA_HOST_CERT_MANY_PRINCIPALS))
     cert_builder.set_key_id(RSA_HOST_CERT_MANY_PRINCIPALS_KEY_ID)
 
     principals = "host.example.com,192.168.1.1,host2.example.com"
@@ -220,10 +223,10 @@ def test_rsa_host_cert_many_principals():
 
 def test_rsa_user_cert_critical_opt_source_address():
     cert_builder = get_basic_cert_builder_rsa()
-    cert_builder.set_nonce(
-        nonce=extract_nonce_from_cert(RSA_USER_CERT_FORCE_COMMAND_AND_SOURCE_ADDRESS)
-    )
-    cert_builder.set_key_id(RSA_USER_CERT_FORCE_COMMAND_AND_SOURCE_ADDRESS_KEY_ID)
+    cert_builder.set_nonce(nonce=extract_nonce_from_cert(
+        RSA_USER_CERT_FORCE_COMMAND_AND_SOURCE_ADDRESS))
+    cert_builder.set_key_id(
+        RSA_USER_CERT_FORCE_COMMAND_AND_SOURCE_ADDRESS_KEY_ID)
     cert_builder.set_critical_option_force_command("/bin/ls")
     cert_builder.set_critical_option_source_addresses("192.168.1.0/24")
 
@@ -245,8 +248,10 @@ def test_nonce():
 def test_ed25519_user_cert_defaults():
     ca = get_basic_rsa_ca()
     pub_key = ED25519PublicKey(EXAMPLE_ED25519_PUBLIC_KEY)
-    cert_builder = ED25519CertificateBuilder(ca, SSHCertificateType.USER, pub_key)
-    cert_builder.set_nonce(nonce=extract_nonce_from_cert(ED25519_USER_CERT_DEFAULTS))
+    cert_builder = ED25519CertificateBuilder(ca, SSHCertificateType.USER,
+                                             pub_key)
+    cert_builder.set_nonce(
+        nonce=extract_nonce_from_cert(ED25519_USER_CERT_DEFAULTS))
     cert_builder.set_key_id(ED25519_USER_CERT_DEFAULTS_KEY_ID)
 
     cert = cert_builder.get_cert_file()

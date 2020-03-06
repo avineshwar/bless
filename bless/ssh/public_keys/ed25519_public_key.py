@@ -34,7 +34,8 @@ class ED25519PublicKey(SSHPublicKey):
         # hazmat does not support ed25519 so we have out own loader based on serialization.load_ssh_public_key
 
         if split_key_len < 2:
-            raise ValueError("Key is not in the proper format or contains extra data.")
+            raise ValueError(
+                "Key is not in the proper format or contains extra data.")
 
         key_type = split_ssh_public_key[0]
         key_body = split_ssh_public_key[1]
@@ -51,8 +52,7 @@ class ED25519PublicKey(SSHPublicKey):
 
         if inner_key_type != key_type.encode("utf-8"):
             raise ValueError(
-                "Key header and key body contain different key type values."
-            )
+                "Key header and key body contain different key type values.")
 
         # ed25519 public key is a single string https://tools.ietf.org/html/rfc8032#section-5.1.5
         self.a, rest = ssh._ssh_read_next_string(rest)
@@ -61,5 +61,4 @@ class ED25519PublicKey(SSHPublicKey):
         fingerprint = hashlib.md5(key_bytes).hexdigest()
 
         self.fingerprint = "ED25519 " + ":".join(
-            fingerprint[i : i + 2] for i in range(0, len(fingerprint), 2)
-        )
+            fingerprint[i:i + 2] for i in range(0, len(fingerprint), 2))
