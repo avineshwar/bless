@@ -1,12 +1,13 @@
 import os
 
-from setuptools import setup, find_packages
+from setuptools import find_packages
+from setuptools import setup
 
 ROOT = os.path.realpath(os.path.join(os.path.dirname(__file__)))
 
 about = {}
 with open(os.path.join(ROOT, "bless", "__about__.py")) as f:
-    exec (f.read(), about)
+    exec(f.read(), about)
 
 setup(
     name=about["__title__"],
@@ -18,19 +19,9 @@ setup(
     license=about["__license__"],
     packages=find_packages(exclude=["test*"]),
     install_requires=[
-        'boto3',
-        'cryptography',
-        'ipaddress',
-        'marshmallow',
-        'kmsauth'
+        "boto3", "cryptography", "ipaddress", "marshmallow", "kmsauth"
     ],
     extras_require={
-        'tests': [
-            'coverage',
-            'flake8',
-            'pyflakes',
-            'pytest',
-            'pytest-mock'
-        ]
-    }
+        "tests": ["coverage", "flake8", "pyflakes", "pytest", "pytest-mock"]
+    },
 )

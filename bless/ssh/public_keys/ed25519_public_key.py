@@ -6,8 +6,10 @@
 import base64
 import hashlib
 
-from bless.ssh.public_keys.ssh_public_key import SSHPublicKey, SSHPublicKeyType
-from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives.serialization import ssh
+
+from bless.ssh.public_keys.ssh_public_key import SSHPublicKey
+from bless.ssh.public_keys.ssh_public_key import SSHPublicKeyType
 
 
 class ED25519PublicKey(SSHPublicKey):
@@ -20,20 +22,20 @@ class ED25519PublicKey(SSHPublicKey):
 
         self.type = SSHPublicKeyType.ED25519
 
-        split_ssh_public_key = ssh_public_key.split(' ')
+        split_ssh_public_key = ssh_public_key.split(" ")
         split_key_len = len(split_ssh_public_key)
 
         # is there a key comment at the end?
         if split_key_len > 2:
-            self.key_comment = ' '.join(split_ssh_public_key[2:])
+            self.key_comment = " ".join(split_ssh_public_key[2:])
         else:
-            self.key_comment = ''
+            self.key_comment = ""
 
         # hazmat does not support ed25519 so we have out own loader based on serialization.load_ssh_public_key
 
         if split_key_len < 2:
             raise ValueError(
-                'Key is not in the proper format or contains extra data.')
+                "Key is not in the proper format or contains extra data.")
 
         key_type = split_ssh_public_key[0]
         key_body = split_ssh_public_key[1]
@@ -44,20 +46,19 @@ class ED25519PublicKey(SSHPublicKey):
         try:
             decoded_data = base64.b64decode(key_body)
         except TypeError:
-            raise ValueError('Key is not in the proper format.')
+            raise ValueError("Key is not in the proper format.")
 
-        inner_key_type, rest = serialization._ssh_read_next_string(decoded_data)
+        inner_key_type, rest = ssh._ssh_read_next_string(decoded_data)
 
         if inner_key_type != key_type.encode("utf-8"):
             raise ValueError(
-                'Key header and key body contain different key type values.'
-            )
+                "Key header and key body contain different key type values.")
 
         # ed25519 public key is a single string https://tools.ietf.org/html/rfc8032#section-5.1.5
-        self.a, rest = serialization._ssh_read_next_string(rest)
+        self.a, rest = ssh._ssh_read_next_string(rest)
 
         key_bytes = base64.b64decode(split_ssh_public_key[1])
         fingerprint = hashlib.md5(key_bytes).hexdigest()
 
-        self.fingerprint = 'ED25519 ' + ':'.join(
+        self.fingerprint = "ED25519 " + ":".join(
             fingerprint[i:i + 2] for i in range(0, len(fingerprint), 2))
